@@ -1,28 +1,58 @@
 #!/bin/sh
+username=$1
+uuid=$2
 
-USR_EX=$1
+echo " $username | $uuid  " >> /root/atlasremove.log
 
-_getUserEx() {
+invalid_username() {
+        echo "USERNAME inválido"
+        exit 1
+    }
+
+_getUser() {
     user_count=$(grep "^$1:x:" /etc/passwd | cut -d ':' -f 1 | wc -c)
     echo $user_count | tr -dc '0-9'
 }
 
-if [ -z "${USR_EX}" ]; then
+if [ -z "${username}" ]; then
     echo "Você deve especificar um usuário."
     exit 1
 else
-    USER_COUNT=$(_getUserEx $USR_EX)
-    if [ "$USER_COUNT" -gt 3 ]; then
-        kill -9 $(ps -fu $USR_EX | awk '{print $2}' | grep -v PID)
-        userdel $USR_EX
+    user_count=$(_getUser $username)
+    if [ "$user_count" -gt 3 ]; then
+        kill -9 $(ps -fu $username | awk '{print $2}' | grep -v PID)
+        userdel $username
         echo "1"
-        grep -v "^$USR_EX[[:space:]]" /root/usuarios.db > /tmp/ph
+        grep -v "^$username[[:space:]]" /root/usuarios.db > /tmp/ph
         cat /tmp/ph > /root/usuarios.db
-        rm /etc/SSHPlus/senha/$USR_EX 1>/dev/null 2>/dev/null
-        rm /etc/usuarios/$USR_EX 1>/dev/null 2>/dev/null
-        exit 0
+        rm /etc/SSHPlus/senha/$username 1>/dev/null 2>/dev/null
+        rm /etc/usuarios/$username 1>/dev/null 2>/dev/null
     else
-        echo "2"
-        exit 2
+        invalid_username
     fi
 fi
+
+delete_uuid() {
+    if [ "$#" -ne 2 ]; then
+        echo "Uso: $0 <uuid> <login>"
+        exit 1
+    fi
+
+
+    invalid_uuid() {
+        echo "UUID inválido"
+        exit 1
+    }
+
+    if grep -q "$uuid" /etc/v2ray/config.json; then
+        tmpfile=$(mktemp)
+        jq --arg uuid "$uuid" 'del(.inbounds[0].settings.clients[] | select(.id == $uuid))' /etc/v2ray/config.json > "$tmpfile" && mv "$tmpfile" /etc/v2ray/config.json
+
+        sudo systemctl restart v2ray
+        echo "Objeto com 'id' igual a $uuid removido"
+    else
+        invalid_uuid
+    fi
+}
+
+delete_uuid "$username" "$uuid"
