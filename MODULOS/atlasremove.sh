@@ -19,6 +19,7 @@ if [ -z "${username}" ]; then
     exit 1
 else
     user_count=$(_getUser $username)
+    uuid_count=$(_getUser $uuid)
     if [ "$user_count" -gt 3 ]; then
         kill -9 $(ps -fu $username | awk '{print $2}' | grep -v PID)
         userdel $username
@@ -27,6 +28,10 @@ else
         cat /tmp/ph > /root/usuarios.db
         rm /etc/SSHPlus/senha/$username 1>/dev/null 2>/dev/null
         rm /etc/usuarios/$username 1>/dev/null 2>/dev/null
+        
+        grep -v "^$uuid[[:space:]]" /etc/SSHPlus/RegV2ray > /tmp/ph
+        cat /tmp/ph > /etc/SSHPlus/RegV2ray
+        
     else
         invalid_username
     fi
