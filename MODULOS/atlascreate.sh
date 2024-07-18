@@ -6,9 +6,9 @@ hora=$4
 sshlimiter=$5
 uuid=$6
 
-echo "  $username | $password | $data | $hora | $sshlimiter | $uuid  " >> /root/atlascreate.log
+echo "  $username | $password | $dias | $hora | $sshlimiter | $uuid  " >> /root/atlascreate.log
 
-##ADICIONAR UTILIZADOR UUID
+##ADICIONAR UTILIZADOR
 
 pass=$(perl -e 'print crypt($ARGV[0], "password")' $password)
 useradd -e $data -M -s /bin/false -p $pass $username
@@ -25,7 +25,7 @@ sed -i '17i\           \},' /etc/v2ray/config.json
 
 echo "  $uuid | $username | $password | $data | $hora " >> /etc/SSHPlus/RegV2ray
 
-cp /etc/SSHPlus/RegV2ray /etc/SSHPlus/v2ray/RegV2ray-"$Fecha"
+cp /etc/SSHPlus/RegV2ray /etc/SSHPlus/v2ray/RegV2ray-"$data"
 v2ray restart > /dev/null 2>&1
 
 v2ray info > /etc/SSHPlus/v2ray/confuuid.log
