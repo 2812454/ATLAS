@@ -2,7 +2,7 @@
 username=$1
 uuid=$2
 
-echo " $username | $uuid  " >> /root/apagar/log.log
+echo " $username | $uuid  " >> /root/apagar/atlasremove.log
 
 invalid_username() {
         echo "USERNAME invÃ¡lido"
