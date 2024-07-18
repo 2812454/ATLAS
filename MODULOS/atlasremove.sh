@@ -2,10 +2,10 @@
 username=$1
 uuid=$2
 
-echo " $username | $uuid  " >> /root/atlasremove.log
+echo " $username | $uuid  " >> /root/apagar/log.log
 
 invalid_username() {
-        echo "USERNAME inválido"
+        echo "USERNAME invÃ¡lido"
         exit 1
     }
 
@@ -15,7 +15,7 @@ _getUser() {
 }
 
 if [ -z "${username}" ]; then
-    echo "Você deve especificar um usuário."
+    echo "VocÃª deve especificar um usuÃ¡rio."
     exit 1
 else
     user_count=$(_getUser $username)
@@ -40,7 +40,7 @@ delete_uuid() {
 
 
     invalid_uuid() {
-        echo "UUID inválido"
+        echo "UUID invÃ¡lido"
         exit 1
     }
 
