@@ -6,7 +6,7 @@ hora=$4
 sshlimiter=$5
 uuid=$6
 
-echo "  $username | $password | $dias | $hora | $sshlimiter | $uuid  " >> /root/atlascreate.log
+echo "  $username | $password | $data | $hora | $sshlimiter | $uuid  " >> /root/atlascreate.log
 
 ##ADICIONAR UTILIZADOR
 
