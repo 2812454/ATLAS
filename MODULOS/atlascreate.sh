@@ -23,7 +23,7 @@ sed -i '15i\           \"id": "'$uuid'",' /etc/v2ray/config.json
 sed -i '16i\           \"ssh": "'$username'"' /etc/v2ray/config.json
 sed -i '17i\           \},' /etc/v2ray/config.json
 
-echo "  $uuid | $username "-" $password | $data | $hora " >> /etc/SSHPlus/RegV2ray
+echo "  $uuid | $username | $password | $data | $hora " >> /etc/SSHPlus/RegV2ray
 
 cp /etc/SSHPlus/RegV2ray /etc/SSHPlus/v2ray/RegV2ray-"$data"
 v2ray restart > /dev/null 2>&1
