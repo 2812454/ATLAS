@@ -29,7 +29,7 @@ else
         rm /etc/SSHPlus/senha/$username 1>/dev/null 2>/dev/null
         rm /etc/usuarios/$username 1>/dev/null 2>/dev/null
         
-        grep -v "^$uuid[[:space:]]" /etc/SSHPlus/RegV2ray > /tmp/ph
+        grep -v "^$username[[:space:]]" /etc/SSHPlus/RegV2ray > /tmp/ph
         cat /tmp/ph > /etc/SSHPlus/RegV2ray
         
     else
